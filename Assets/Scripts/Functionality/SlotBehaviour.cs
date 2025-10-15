@@ -995,7 +995,7 @@ public class SlotBehaviour : MonoBehaviour
     {
         alltweens[index].Pause();
         slotTransform.localPosition = new Vector2(slotTransform.localPosition.x, 0);
-        alltweens[index] = slotTransform.DOLocalMoveY(-815, 0.2f).SetEase(Ease.OutElastic);
+        alltweens[index] = slotTransform.DOLocalMoveY(-860, 0.2f).SetEase(Ease.OutElastic);
 
 
         if (!isStop)
