@@ -122,6 +122,13 @@ public class SlotBehaviour : MonoBehaviour
     [SerializeField] private GameObject[] normalWinBlinkObj;
     [SerializeField] private GameObject[] freeSpinBlinkObj;
 
+    private int[,] initialMatrix = new int[,]
+    {
+        {4, 4, 9, 4, 4 },
+        {9, 9, 9, 9, 6 },
+        {5, 6, 6, 6, 5 }
+    };
+
     internal int totalFreeSpins;
     private Tween BalanceTween;
     internal List<int> dynamicLinesIndex = new List<int>();
@@ -154,7 +161,8 @@ public class SlotBehaviour : MonoBehaviour
         if (FSBoard_Object) FSBoard_Object.SetActive(false);
 
         tweenHeight = (15 * IconSizeFactor) - 280;
-        shuffleInitialMatrix();
+        // shuffleInitialMatrix();
+        InitializeMatrix();
     }
 
 
@@ -334,18 +342,39 @@ public class SlotBehaviour : MonoBehaviour
     }
 
     #region InitialFunctions
-    internal void shuffleInitialMatrix()
+    // internal void shuffleInitialMatrix()
+    // {
+    //     for (int i = 0; i < slotMatrix.Count; i++)
+    //     {
+    //         for (int j = 0; j < 3; j++)
+    //         {
+    //             int randomIndex = UnityEngine.Random.Range(0, myImages.Length);
+    //             slotMatrix[i].slotImages[j].rendererDelegate.sprite = myImages[randomIndex];
+    //         }
+    //     }
+    //     shuffleExtraIcons();
+    // }
+     internal void InitializeMatrix()
     {
-        for (int i = 0; i < slotMatrix.Count; i++)
+        for (int row = 0; row < initialMatrix.GetLength(0); row++)
         {
-            for (int j = 0; j < 3; j++)
+            for (int col = 0; col < initialMatrix.GetLength(1); col++)
             {
-                int randomIndex = UnityEngine.Random.Range(0, myImages.Length);
-                slotMatrix[i].slotImages[j].rendererDelegate.sprite = myImages[randomIndex];
+                int val = initialMatrix[row, col];
+
+                slotMatrix[col].slotImages[row].rendererDelegate.sprite = myImages[val];
+
+                ImageAnimation animScript = slotMatrix[col].slotImages[row].GetComponent<ImageAnimation>();
+                if (animScript != null)
+                {
+                    PopulateAnimationSprites(animScript, val);
+
+                    animScript.StartAnimation();
+                }
             }
         }
         shuffleExtraIcons();
-    }
+    }   
 
     internal void shuffleExtraIcons()
     {
@@ -518,7 +547,7 @@ public class SlotBehaviour : MonoBehaviour
             }
         }
 
-        if (IsTurboOn|| IsFreeSpin )
+        if (IsTurboOn || IsFreeSpin)
         {
 
             yield return new WaitForSeconds(0.1f);
@@ -920,7 +949,7 @@ public class SlotBehaviour : MonoBehaviour
 
     internal void CallCloseSocket()
     {
-       StartCoroutine(SocketManager.CloseSocket());
+        StartCoroutine(SocketManager.CloseSocket());
     }
 
     void BlinkAnim()

@@ -6673,7 +6673,7 @@ MonoBehaviour:
   uiManager: {fileID: 377874625}
   bonusdata: []
   JSManager: {fileID: 1296218738}
-  testToken: 301fdde5d2a843b99f6283539be27aaf
+  testToken: 8dc00a9638984fec8786ca3012ab95bc
   RaycastBlocker: {fileID: 1931759567}
 --- !u!1 &502968745
 GameObject:
