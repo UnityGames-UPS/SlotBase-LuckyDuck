@@ -401,9 +401,14 @@ public class SlotBehaviour : MonoBehaviour
     }
     #endregion
 
-    private void OnApplicationFocus(bool focus)
+    // Backend-pushed balance correction (balance:sync). Snaps the display — this is not a
+    // spin result, so it must not tween — and re-runs the low-balance gate.
+    internal void UpdateBalanceDisplay(double newBalance)
     {
-        audioController.CheckFocusFunction(focus, CheckSpinAudio);
+        BalanceTween?.Kill();
+        currentBalance = newBalance;
+        if (Balance_text) Balance_text.text = newBalance.ToString("f2");
+        CompareBalance();
     }
 
     //function to populate animation sprites accordingly
